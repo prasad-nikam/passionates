@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Signup.css';
 // import { Link } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +12,8 @@ const Signup = () => {
     password: '',
     confirmPassword: ''
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +32,7 @@ const Signup = () => {
     try {
       const response = await axios.post('http://localhost:8080/signup', formData);
       console.log('result :',response.data);
-      // Optionally, redirect the user to another page upon successful signup
+      navigate('/')
     } catch (error) {
       console.error('Error signing up:', error);
     }

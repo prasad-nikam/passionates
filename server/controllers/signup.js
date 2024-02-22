@@ -27,10 +27,15 @@ export default async (req, res) => {
             {expiresIn:"2h"}
         );
 
+        const options = {
+            expires : new Date(Date.now()+(3*24*60*60*1000)),
+            httpOnly : true,  //cookies could not be accesed on browser directly
+        }
+
         user.token = token;
         user.password = undefined;
 
-        res.status(201).json({user,token :token});
+        res.status(201).cookie("token",token,options).json({user,token :token});
 
     }
 

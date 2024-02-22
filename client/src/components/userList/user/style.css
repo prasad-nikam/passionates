@@ -5,8 +5,9 @@ h1{
 }
 
 .userBox{
-    display: flex;
     background-color: rgba(127, 240, 255, 0.623);
+    display: flex;
+    justify-content: space-between;
     width: 600px;
     padding: 10px;
     margin: 20px;
@@ -16,8 +17,8 @@ h1{
 .details{
     display: flex;
     flex-direction: column;
+    width: 350px;
     justify-content: space-around;
-    margin-right: 130px;
     /* align-items: center; */
 }
 

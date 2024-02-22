@@ -1,0 +1,15 @@
+.main{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 40px 0;
+    position:sticky;
+    top: 0;
+    z-index: 999;
+    padding: 15px;
+    background-color: rgb(124, 231, 250);
+}
+.right{
+    display: flex;
+    gap: 20px;
+}

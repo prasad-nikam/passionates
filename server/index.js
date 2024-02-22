@@ -10,7 +10,7 @@ import authUser from "./basicAuth.js";
 import signup from "./controllers/signup.js";
 import login from "./controllers/login.js";
 import getUsers from "./controllers/userList.js";
-
+import loginData from "./controllers/loginData.js";
 
 const app = express();
 const PORT = 8080;
@@ -21,27 +21,16 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cookieParser())
 app.use(cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173","http://192.168.43.192:5173"],
     methods: ['GET', 'POST'],
     credentials: true,
 }));
 
 
+app.get('/',authUser,getUsers)
 app.post('/signup', signup)
 app.post('/login', login)
-app.get('/',authUser,getUsers)
-app.get('/getcookies',authUser,(req,res)=>{
-    const decoded = jwt.verify(req.cookies.token,'cvpap');
-    res.send(decoded)
-})
-
-
-// function authUser(req,res,next){
-//     if(!(req.cookies.token)){
-//         res.status(403).send("You are not logged in")
-//     }
-//     next();
-// }
+app.get('/isLoggedin',authUser,loginData)
 
 
 mongoose.connect(MONGO_URL).then(() => {
