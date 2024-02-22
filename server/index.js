@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import bodyParser from 'body-parser';
 import cors from 'cors'
 import cookieParser from "cookie-parser";
-import jwt from 'jsonwebtoken';
 
 import authUser from "./basicAuth.js";
 
