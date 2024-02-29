@@ -23,8 +23,6 @@ const AllUsers = () => {
         fetchData();
     }, [])
 
-    console.log(users)
-
     return (
         <div>
             <h1>People</h1>
