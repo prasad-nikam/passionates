@@ -25,7 +25,7 @@ const Login = () => {
 		try {
 			const response = await axios.post('http://localhost:8080/login', formData, { withCredentials: true });
 			if (response) {
-				navigate('/')
+				window.open('/')
 			}
 		} catch (error) {
 			alert(`${error.response?.status}: ${error.response?.data}`)

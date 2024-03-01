@@ -2,21 +2,21 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import './style.css'
-const LoginData = ({ shouldRender }) => {
+const LoginData = () => {
     const [user, setUser] = useState();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get("http://localhost:8080/isLoggedin", { withCredentials: true });
                 setUser(response?.data);
-                console.log(response?.data);
+                // console.log(response?.data);
             } catch (error) {
                 console.log(error?.response?.data);
             }
         };
-        // if (shouldRender) {
+
         fetchData();
-        // }
         return () => { };
     }, []);
 
@@ -48,9 +48,6 @@ const LoginData = ({ shouldRender }) => {
             children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
         };
     }
-
-
-
 
     return (
         <div>

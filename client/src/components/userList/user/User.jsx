@@ -2,11 +2,12 @@ import React from 'react'
 import { Button } from '@mui/material'
 import './style.css'
 import './style.css'
+import { useNavigate } from 'react-router-dom'
 
 const User = (props) => {
-
+    const navigate = useNavigate();
     const handleMsgClick = () => {
-
+        navigate(`/message/${props?.user?.firstname}`, { state: { data: props?.user } })
     }
 
     return (

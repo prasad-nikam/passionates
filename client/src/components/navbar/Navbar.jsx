@@ -3,15 +3,7 @@ import './style.css'
 import { Link } from 'react-router-dom'
 import { Button } from '@mui/material'
 import LoginData from '../loginData/LoginData'
-const Navbar = (props) => {
-
-    const [shouldRenderLoginData, setShouldRenderLoginData] = useState(false);
-
-    const toggleLoginData = () => {
-        setShouldRenderLoginData(prevState => !prevState);
-    };
-
-    console.log(props);
+const Navbar = ({ user }) => {
     return (
         <div className='main'>
             <div className="left">
@@ -26,11 +18,10 @@ const Navbar = (props) => {
                     <Button variant="outlined">signup</Button>
                 </Link>
 
-
                 <Link to="/login">
                     <Button variant="outlined">login</Button>
                 </Link>
-                <LoginData shouldRender={shouldRenderLoginData} />
+                <LoginData user={user} />
 
             </div>
         </div>
