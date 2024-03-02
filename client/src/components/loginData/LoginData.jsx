@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import './style.css'
+import { NodeInstance } from '../../../APIs/axiosInstance';
+
 const LoginData = () => {
     const [user, setUser] = useState();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/isLoggedin", { withCredentials: true });
+                const response = await NodeInstance.get('/isLoggedin', { withCredentials: true });
                 setUser(response?.data);
                 // console.log(response?.data);
             } catch (error) {

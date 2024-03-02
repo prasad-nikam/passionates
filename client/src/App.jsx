@@ -8,13 +8,13 @@ import Navbar from "./components/navbar/Navbar";
 import { useState, useMemo, useEffect } from "react";
 import { io } from 'socket.io-client'
 import Message from "./components/message/Message";
-
+import { socketURL } from "../APIs/axiosInstance";
 
 function App() {
 
   const [socketID, setSocketID] = useState();
   const [messages, setMessages] = useState([]);
-  const socket = useMemo(() => io("http://localhost:3000/", { withCredentials: true }), []);
+  const socket = useMemo(() => io(socketURL, { withCredentials: true }), []);
   useEffect(() => {
     socket.on("connect", () => {
       setSocketID(socket.id);
@@ -28,7 +28,7 @@ function App() {
 
     socket.on("receive-message", (data) => {
       setMessages((messages) => [...messages, data])
-      console.log(data);
+      // console.log(data);
     })
   }, [socket])
 

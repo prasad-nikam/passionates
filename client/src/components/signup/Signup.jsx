@@ -3,6 +3,7 @@ import axios from 'axios';
 import './Signup.css';
 // import { Link } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { NodeInstance } from '../../../APIs/axiosInstance';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -30,8 +31,8 @@ const Signup = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:8080/signup', formData);
-      console.log('result :',response.data);
+      const response = await NodeInstance.post('/signup', formData);
+      console.log('result :', response.data);
       navigate('/')
     } catch (error) {
       console.error('Error signing up:', error);
