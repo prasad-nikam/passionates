@@ -25,7 +25,8 @@ const Login = () => {
 		try {
 			const response = await NodeInstance.post('/login', formData, { withCredentials: true });
 			if (response) {
-				window.open('/', '_self')
+				// window.open('/', '_self')
+				navigate('/')
 			}
 		} catch (error) {
 			alert(`${error.response?.status}: ${error.response?.data}`)

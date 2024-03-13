@@ -31,7 +31,6 @@ const chatSocket = (io) => {
                     });
 
                     await msg.save();
-                    const res = await Message.find({})
                 } catch (error) {
                     console.log(error);
                 }

@@ -1,0 +1,21 @@
+.lklk {
+    height: 200px;
+    /* Set the height of the scrollable box */
+    overflow-y: scroll;
+    /* Enable vertical scrolling */
+    animation: scrollAnimation 1s linear infinite;
+    /* Adjust duration and timing as needed */
+
+}
+
+@keyframes scrollAnimation {
+    0% {
+        transform: translateY(0);
+        /* Start scrolling from top */
+    }
+
+    100% {
+        transform: translateY(-100%);
+        /* Scroll to the bottom */
+    }
+}

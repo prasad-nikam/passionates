@@ -21,7 +21,7 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cookieParser())
 app.use(cors({
-    origin: ["http://localhost:5173", "http://192.168.120.70:5173"],
+    origin: ["http://localhost:5173", "http://192.168.20.82:5173", "http://127.0.0.0:5173"],
     methods: ['GET', 'POST'],
     credentials: true,
 }));
@@ -33,7 +33,7 @@ app.use('/', router)
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: ["http://192.168.120.70:5173", "http://localhost:5173"],
+        origin: ["http://192.168.20.82:5173", "http://localhost:5173", "http://127.0.0.0:5173"],
         methods: ["GET", "POST"],
         credentials: true
     }
