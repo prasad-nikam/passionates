@@ -1,5 +1,5 @@
 import axios from 'axios';
-const HOST = "http://192.168.20.82"
+const HOST = "http://localhost"
 export const NodeInstance = axios.create({
     baseURL: `${HOST}:8080`,
     timeout: 9000,
