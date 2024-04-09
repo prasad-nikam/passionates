@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react'
 import Avatar from '@mui/material/Avatar';
 import './style.css'
 import { NodeInstance } from '../../../APIs/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
-const LoginData = () => {
+const LoginData = (rerender) => {
     const [user, setUser] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -18,7 +20,7 @@ const LoginData = () => {
 
         fetchData();
         return () => { };
-    }, []);
+    }, [rerender]);
 
     function stringToColor(string) {
         let hash = 0;
@@ -44,15 +46,23 @@ const LoginData = () => {
         return {
             sx: {
                 bgcolor: stringToColor(name),
+                height: "1.5rem",
+                width: "1.5rem",
+                fontSize: "0.7rem"
             },
             children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
         };
     }
 
     return (
-        <div>
-            {`${user?.firstname} ${user?.lastname}`}
+        <div onClick={() => { navigate("/profile") }} className='logindata'>
+
+
             <Avatar {...stringAvatar(`${user?.firstname} ${user?.lastname}`)} />
+
+            {`${user?.firstname} ${user?.lastname}`}
+
+
         </div>
     )
 }

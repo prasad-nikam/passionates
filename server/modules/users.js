@@ -22,6 +22,9 @@ const userSchema = mongoose.Schema({
     interests: {
         type: [String],
     },
+    description: {
+        type: String,
+    },
     posts: {
         type: mongoose.Schema.Types.ObjectId,
     },
