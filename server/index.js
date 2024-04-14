@@ -13,7 +13,7 @@ import chatSocket from "./sockets/chatSocket.js";
 
 const app = express();
 const PORT = 8080;
-const HOST = "0.0.0";
+const HOST = "localhost";
 const MONGO_URL = "mongodb://127.0.0.1:27017/passionates";
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cookieParser())
 app.use(cors({
     origin: ["http://localhost:5173", "http://192.168.20.82:5173", "http://127.0.0.0:5173"],
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'PUT'],
     credentials: true,
 }));
 

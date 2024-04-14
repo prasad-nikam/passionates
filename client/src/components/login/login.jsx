@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { NodeInstance } from '../../../APIs/axiosInstance';
 
 
-const Login = () => {
+const Login = (props) => {
 	const [formData, setFormData] = useState({
 		email: '',
 		password: ''
@@ -26,6 +26,7 @@ const Login = () => {
 			const response = await NodeInstance.post('/login', formData, { withCredentials: true });
 			if (response) {
 				// window.open('/', '_self')
+				props.onClick()
 				navigate('/')
 			}
 		} catch (error) {
