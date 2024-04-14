@@ -19,3 +19,17 @@
         /* Scroll to the bottom */
     }
 }
+
+hr {
+    border-top: 1px solid rgba(0, 204, 255, 0.366);
+}
+
+.msgOwner {
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.msgContent {
+    margin-left: 30px;
+}

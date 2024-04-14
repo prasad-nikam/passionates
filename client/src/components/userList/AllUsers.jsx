@@ -25,12 +25,19 @@ const AllUsers = () => {
 
     return (
         <div>
-            <h1>People</h1>
-            {users.map(user => (
-                <li key={user._id} type="none">
-                    <User user={user} />
-                </li>
-            ))}
+            <center>
+
+                <div
+                    className="userList"
+                >
+                    <h1>People</h1>
+                    {users.map(user => (
+                        <li key={user._id} type="none">
+                            <User user={user} />
+                        </li>
+                    ))}
+                </div>
+            </center>
         </div>
     )
 }
