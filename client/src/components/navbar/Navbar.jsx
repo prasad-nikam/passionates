@@ -1,9 +1,46 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './style.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 import LoginData from '../loginData/LoginData'
-const Navbar = ({ user }) => {
+import { NodeInstance } from '../../../APIs/axiosInstance';
+
+const Navbar = ({ rerender }) => {
+
+    const navigate = useNavigate()
+    console.log(rerender)
+
+    const [logBtn, setLogBtn] = useState("")
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await NodeInstance.get('/isLoggedin', { withCredentials: true });
+                if (response.status == 200) {
+                    setLogBtn("Logout")
+                } else {
+                    setLogBtn("Login")
+                }
+            } catch (error) {
+                setLogBtn("Login")
+                console.log(error?.response?.data);
+            }
+        };
+
+        fetchData();
+        return () => { };
+    }, [rerender]);
+
+    const logHandleClick = async () => {
+        if (logBtn == "Logout") {
+            const responce = await NodeInstance.get('/logout', { withCredentials: true })
+            setLogBtn("login")
+            navigate("/login")
+
+        } else {
+            navigate("/login")
+        }
+    }
+
     return (
         <div className='main'>
             <div className="left">
@@ -18,10 +55,11 @@ const Navbar = ({ user }) => {
                     <Button variant="outlined">signup</Button>
                 </Link>
 
-                <Link to="/login">
-                    <Button variant="outlined">login</Button>
+                <Link onClick={logHandleClick}>
+                    <Button variant="outlined">{logBtn}</Button>
                 </Link>
-                <LoginData user={user} />
+
+                <LoginData rerender={rerender} />
 
             </div>
         </div>

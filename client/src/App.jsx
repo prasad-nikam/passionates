@@ -9,6 +9,7 @@ import { useState, useMemo, useEffect } from "react";
 import { io } from 'socket.io-client'
 import Message from "./components/message/Message";
 import { socketURL } from "../APIs/axiosInstance";
+import UserProfile from "./components/UserProfile/UserProfile";
 
 function App() {
 
@@ -33,23 +34,35 @@ function App() {
   }, [socket])
 
 
+  const [rerender, setRerender] = useState(true)
+
+  const handleClick = () => {
+    setRerender(!rerender);
+    console.log(rerender)
+  }
+
+
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <><Navbar /><AllUsers /></>,
+      element: <><Navbar rerender={rerender} /><AllUsers /></>,
       errorElement: <ErrorPage />,
     },
     {
       path: "/signup",
-      element: <><Navbar /><Signup /></>,
+      element: <><Navbar rerender={rerender} /><Signup /></>,
     },
     {
       path: "/login",
-      element: <><Navbar /><Login /></>,
+      element: <><Navbar rerender={rerender} /><Login onClick={handleClick} /></>,
     },
     {
       path: "/message/:to",
-      element: <><Navbar /><Message socket={socket} /></>,
+      element: <><Navbar rerender={rerender} /><Message socket={socket} /></>,
+    },
+    {
+      path: "/profile",
+      element: <><Navbar rerender={rerender} /><UserProfile /> </>,
     },
   ]);
 
