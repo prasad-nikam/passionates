@@ -64,6 +64,10 @@ function App() {
       path: "/profile",
       element: <><Navbar rerender={rerender} /><UserProfile /> </>,
     },
+    {
+      path: "/profile:to",
+      element: <><Navbar rerender={rerender} /><UserProfile /> </>,
+    },
   ]);
 
   return (

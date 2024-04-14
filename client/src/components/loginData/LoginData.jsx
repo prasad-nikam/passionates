@@ -58,7 +58,7 @@ const LoginData = (rerender) => {
         <div onClick={() => { navigate("/profile") }} className='logindata'>
 
 
-            <Avatar {...stringAvatar(`${user?.firstname} ${user?.lastname}`)} />
+            <Avatar {...stringAvatar(`${user?.firstname.toUpperCase()} ${user?.lastname.toUpperCase()}`)} />
 
             {`${user?.firstname} ${user?.lastname}`}
 

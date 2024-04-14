@@ -113,9 +113,22 @@ const UserProfile = () => {
                                 <div>
                                     <label htmlFor="interests">Interests: </label>
                                     <input type="text" name="interests" onChange={handleChange} /> <br />
+                                    <i style={{ fontSize: "18px", color: "gray" }} >type comma separatd words in interests </i>
                                 </div>
 
-                                <button type="submit">Apply changes</button>
+                                <button type="submit">
+
+                                    <Button
+
+                                        variant="contained" color="success"
+                                        sx={{ margin: "10px" }}
+                                        size='large'
+                                        onClick={() => { setEdit(!edit) }}
+                                    >
+                                        Apply Changes
+
+                                    </Button>
+                                </button>
 
                             </>
                         }
@@ -125,7 +138,15 @@ const UserProfile = () => {
 
             </div>
 
-            <Button size='small' variant='outlined' onClick={() => { setEdit(!edit) }} > {edit ? "Cancel" : "Edit Profile"} </Button>
+            <Button
+                sx={{ margin: "10px" }}
+                size='small'
+                variant='outlined'
+                onClick={() => { setEdit(!edit) }}
+            >
+                {edit ? "Cancel" : "Edit Profile"}
+
+            </Button>
         </>
     )
 }
