@@ -22,7 +22,7 @@ const userSchema = mongoose.Schema({
     interests: {
         type: [String],
     },
-    description: {
+    bio: {
         type: String,
     },
     posts: {
