@@ -10,6 +10,8 @@ import { io } from 'socket.io-client'
 import Message from "./components/message/Message";
 import { socketURL } from "../APIs/axiosInstance";
 import UserProfile from "./components/UserProfile/UserProfile";
+import Search from "./components/Search/Search";
+import ChangePass from "./components/changePass/ChangePass";
 
 function App() {
 
@@ -65,8 +67,12 @@ function App() {
       element: <><Navbar rerender={rerender} /><UserProfile /> </>,
     },
     {
-      path: "/profile:to",
-      element: <><Navbar rerender={rerender} /><UserProfile /> </>,
+      path: "/search",
+      element: <><Navbar rerender={rerender} /><Search /> </>,
+    },
+    {
+      path: "/changepass",
+      element: <><Navbar rerender={rerender} /><ChangePass /> </>,
     },
   ]);
 

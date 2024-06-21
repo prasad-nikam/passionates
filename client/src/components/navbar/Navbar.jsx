@@ -47,6 +47,9 @@ const Navbar = ({ rerender }) => {
                 <h2>Passionates</h2>
             </div>
             <div className="right">
+                <Link to="/search">
+                    <Button variant="outlined">Search</Button>
+                </Link>
                 <Link to="/">
                     <Button variant="outlined">Home</Button>
                 </Link>
