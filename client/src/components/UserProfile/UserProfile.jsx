@@ -6,6 +6,8 @@ import { Button } from '@mui/material'
 
 
 import './style.css'
+import AllUsers from '../userList/AllUsers';
+import Friendlist from '../friendlist/Friendlist';
 const UserProfile = () => {
 
     const [user, setUser] = useState();
@@ -135,6 +137,9 @@ const UserProfile = () => {
                     </div>
 
                 </form>
+                <div className="friendlist">
+                    <Friendlist/>
+                </div>
 
             </div>
 
