@@ -90,15 +90,16 @@ const Message = ({ socket }) => {
                     }}
                 />
 
-                <button type="submit" className='sendbtn'>
+                <div className='sendbtn'>
                     <Button
+                    type='submit'
                         variant="contained"
                         endIcon={<SendIcon />}
                         sx={{ margin: "5px", height: "60px" }}
                     >
                         Send
                     </Button>
-                </button>
+                </div>
 
             </form>
 
