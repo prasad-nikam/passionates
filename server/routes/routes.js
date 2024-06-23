@@ -2,7 +2,7 @@ import express from "express";
 import authUser from "../basicAuth.js";
 import signup from "../controllers/signup.js";
 import login from "../controllers/login.js";
-import getUsers from "../controllers/userList.js";
+import getUsers, { getfriends } from "../controllers/userList.js";
 import loginData from "../controllers/loginData.js";
 import getMessages from "../controllers/getMessages.js";
 import logout from "../controllers/logout.js";
@@ -21,4 +21,6 @@ router.put("/updateprofile", authUser, updateProfile);
 
 router.post("/sendRequest", authUser, sendRequest);
 router.post("/acceptRequest", authUser, acceptRequest);
+router.get("/getfriends", authUser, getfriends);
+
 export default router;
