@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 import LoginData from '../loginData/LoginData'
 import { NodeInstance } from '../../../APIs/axiosInstance';
+import Invitations from '../invitations/Invitations'
 
 const Navbar = ({ rerender }) => {
 
@@ -61,6 +62,7 @@ const Navbar = ({ rerender }) => {
                 <Link onClick={logHandleClick}>
                     <Button variant="outlined">{logBtn}</Button>
                 </Link>
+                <Invitations/>
 
                 <LoginData rerender={rerender} />
 
