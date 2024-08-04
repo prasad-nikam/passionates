@@ -38,7 +38,7 @@ export default function Invitations() {
 				aria-haspopup="true"
 				onClick={handleClick}
 			>
-				<Badge color="success" badgeContent={3}>
+				<Badge color="success" badgeContent={options.length}>
 					<GroupAddIcon />
 				</Badge>
 			</IconButton>
