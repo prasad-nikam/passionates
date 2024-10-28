@@ -69,7 +69,7 @@ mongoose
 	.then(() => {
 		console.log("MongoDB Connected Successfully");
 		app.listen(PORT, HOST, () => {
-			console.log(`server is running on http://127.${HOST}:${PORT}`);
+			console.log(`server is running on http://${HOST}:${PORT}`);
 		});
 	})
 	.catch((err) => {
