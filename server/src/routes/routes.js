@@ -1,5 +1,5 @@
 import express from "express";
-import authUser from "../basicAuth.js";
+import authUser from "../middlewares/basicAuth.js";
 import signup from "../controllers/signup.js";
 import login from "../controllers/login.js";
 import getUsers, { getfriends } from "../controllers/userList.js";

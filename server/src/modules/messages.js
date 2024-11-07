@@ -3,7 +3,7 @@ import mongoose, { Schema } from "mongoose";
 const msgSchema = mongoose.Schema({
     content: String,
     sender: {
-        type: String
+        type: String,
     },
     reciever: {
         type: String,
@@ -13,7 +13,7 @@ const msgSchema = mongoose.Schema({
         default: Date.now,
     },
     status: String,
-})
+});
 
 const Message = mongoose.model("Message", msgSchema);
 export default Message;
