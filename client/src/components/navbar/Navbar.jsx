@@ -32,15 +32,13 @@ const Navbar = ({ rerender }) => {
 		};
 
 		fetchData();
-		return () => {};
+		return () => { };
 	}, [rerender]);
 
 	const logHandleClick = async () => {
-		if (logBtn == "Logout") {
-			const responce = await NodeInstance.get("/logout", {
-				withCredentials: true,
-			});
-			setLogBtn("login");
+		if (logBtn === "Logout") {
+			await NodeInstance.post("/auth/logout");
+			setLogBtn("Login");
 			navigate("/login");
 		} else {
 			navigate("/login");

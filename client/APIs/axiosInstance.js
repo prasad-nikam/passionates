@@ -6,8 +6,8 @@ export const NodeInstance = axios.create({
 });
 
 export const SocketInstance = axios.create({
-	baseURL: `${HOST}:3000`,
+	baseURL: `${HOST}:8080`,
 	timeout: 9000,
 });
 
-export const socketURL = `${HOST}:3000`;
+export const socketURL = `${HOST}:8080`;
