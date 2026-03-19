@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export default async (req, res) => {
+    console.log("kasjdfhkassd");
     const { firstname, lastname, email, password } = req.body;
 
     if (await User.findOne({ email: email })) {

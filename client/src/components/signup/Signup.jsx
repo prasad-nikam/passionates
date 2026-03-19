@@ -31,7 +31,8 @@ const Signup = () => {
       return;
     }
     try {
-      const response = await NodeInstance.post('/signup', formData);
+
+      const response = await NodeInstance.post('/signup', formData, { withCredentials: true });
       console.log('result :', response.data);
       navigate('/')
     } catch (error) {
