@@ -23,7 +23,7 @@ const Login = (props) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await NodeInstance.post('/login', formData, { withCredentials: true });
+			const response = await NodeInstance.post('/auth/login', formData, { withCredentials: true });
 			if (response) {
 				// window.open('/', '_self')
 				props.onClick()

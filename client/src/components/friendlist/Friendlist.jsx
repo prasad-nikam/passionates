@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { NodeInstance } from '../../../APIs/axiosInstance';
 import User from '../userList/user/User';
 
-const Friendlist = () => {
+const Friendlist = ({ id }) => {
     const [users, setUsers] = useState([]);
     const navigate = useNavigate()
     useEffect(() => {
         async function fetchData() {
 
             try {
-                const responce = await NodeInstance.get("/getfriends", { withCredentials: true });
+                const responce = await NodeInstance.get(`/users/${id}/friends`, { withCredentials: true });
                 setUsers(responce?.data);
                 // console.log(responce);
             } catch (error) {

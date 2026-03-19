@@ -11,9 +11,9 @@ const AllUsers = () => {
         async function fetchData() {
 
             try {
-                const responce = await NodeInstance.get("/", { withCredentials: true });
+                const responce = await NodeInstance.get("/users", { withCredentials: true });
                 setUsers(responce?.data);
-                // console.log(responce);
+                console.log(responce);
             } catch (error) {
                 navigate('/login');
                 // alert(`${error.response?.status}: ${error.response?.data}`)
@@ -30,7 +30,7 @@ const AllUsers = () => {
                     className="userList"
                 >
                     <h1>People</h1>
-                    {users.map(user => (
+                    {users?.map(user => (
                         <li key={user._id} type="none">
                             <User user={user} />
                         </li>

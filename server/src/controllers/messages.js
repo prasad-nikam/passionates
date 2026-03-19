@@ -1,9 +1,8 @@
 import Message from "../modules/messages.js";
-import jwt from "jsonwebtoken";
 
-export default async (req, res) => {
-    const { reciever } = req.body;
-    const decoded = jwt.verify(req.cookies.token, "cvpap");
+export const getMessages = async (req, res) => {
+    const reciever = req.param.userId;
+    const decoded = req.user;
 
     try {
         const msgs = await Message.find({

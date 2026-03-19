@@ -11,7 +11,7 @@ const LoginData = (rerender) => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await NodeInstance.get("/isLoggedin", {
+				const response = await NodeInstance.get("/auth/me", {
 					withCredentials: true,
 				});
 				setUser(response?.data);
@@ -21,7 +21,7 @@ const LoginData = (rerender) => {
 		};
 
 		fetchData();
-		return () => {};
+		return () => { };
 	}, [rerender]);
 
 	function stringToColor(string) {

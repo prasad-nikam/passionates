@@ -19,7 +19,7 @@ function App() {
 	useEffect(() => {
 		socket.on("connect", () => {
 			setSocketID(socket.id);
-			console.log("connected", socket.id);
+			// console.log("connected", socket.id);
 		});
 
 		socket.on("welcome", (s) => {

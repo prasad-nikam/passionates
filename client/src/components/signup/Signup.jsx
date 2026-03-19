@@ -32,7 +32,7 @@ const Signup = () => {
     }
     try {
 
-      const response = await NodeInstance.post('/signup', formData, { withCredentials: true });
+      const response = await NodeInstance.post('/auth/signup', formData, { withCredentials: true });
       console.log('result :', response.data);
       navigate('/')
     } catch (error) {

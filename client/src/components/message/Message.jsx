@@ -16,9 +16,8 @@ const Message = ({ socket }) => {
 
     useMemo(async () => {
         try {
-            const response = await NodeInstance.post(
-                '/getMessages',
-                { reciever: user?.email },
+            const response = await NodeInstance.get(
+                `/messages/${user?.email}`,
                 { withCredentials: true }
             );
 
@@ -92,7 +91,7 @@ const Message = ({ socket }) => {
 
                 <div className='sendbtn'>
                     <Button
-                    type='submit'
+                        type='submit'
                         variant="contained"
                         endIcon={<SendIcon />}
                         sx={{ margin: "5px", height: "60px" }}

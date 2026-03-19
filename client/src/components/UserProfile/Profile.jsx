@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { NodeInstance } from '../../../APIs/axiosInstance';
 import Avatar from '@mui/material/Avatar';
-import { Button } from '@mui/material'
-
-
-
 import './style.css'
 const Profile = () => {
 
@@ -13,7 +9,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await NodeInstance.get('/isLoggedin', { withCredentials: true });
+                const response = await NodeInstance.get('/auth/me', { withCredentials: true });
                 setUser(response?.data);
                 console.log(response.data)
             } catch (error) {

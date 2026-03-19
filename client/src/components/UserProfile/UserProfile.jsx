@@ -3,10 +3,7 @@ import { NodeInstance } from '../../../APIs/axiosInstance';
 import Avatar from '@mui/material/Avatar';
 import { Button } from '@mui/material'
 
-
-
 import './style.css'
-import AllUsers from '../userList/AllUsers';
 import Friendlist from '../friendlist/Friendlist';
 const UserProfile = () => {
 
@@ -16,9 +13,9 @@ const UserProfile = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await NodeInstance.get('/isLoggedin', { withCredentials: true });
+                const response = await NodeInstance.get('auth/me', { withCredentials: true });
                 setUser(response?.data);
-                console.log(response.data)
+                // console.log(response.data)
             } catch (error) {
                 console.log(error?.response?.data);
             }
@@ -76,7 +73,7 @@ const UserProfile = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await NodeInstance.put("/updateprofile", formData, { withCredentials: true });
+            const response = await NodeInstance.patch("/users", formData, { withCredentials: true });
             console.log(response);
             setEdit(false)
         } catch (err) {
@@ -138,7 +135,7 @@ const UserProfile = () => {
 
                 </form>
                 <div className="friendlist">
-                    <Friendlist/>
+                    <Friendlist id={user?._id} />
                 </div>
 
             </div>

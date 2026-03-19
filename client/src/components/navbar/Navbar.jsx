@@ -5,19 +5,17 @@ import { Button } from "@mui/material";
 import LoginData from "../loginData/LoginData";
 import { NodeInstance } from "../../../APIs/axiosInstance";
 import Invitations from "../invitations/Invitations";
-import TextField from "@mui/material/TextField";
-import SendIcon from "@mui/icons-material/Send";
 import SearchBar from "../Search/SearchBar";
 
 const Navbar = ({ rerender }) => {
 	const navigate = useNavigate();
-	console.log(rerender);
+	// console.log(rerender);
 
 	const [logBtn, setLogBtn] = useState("");
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await NodeInstance.get("/isLoggedin", {
+				const response = await NodeInstance.get("/auth/me", {
 					withCredentials: true,
 				});
 				if (response.status == 200) {
