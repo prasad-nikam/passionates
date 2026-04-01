@@ -1,37 +1,40 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { NodeInstance } from "../../APIs/axiosInstance";
 import type { AxiosError } from "axios";
-
-interface UserProfile {
-  _id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  interests: string[];
-  ProfilePicture?: string;
-  userId?: string;
-}
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../../app/features/authSlice";
+import type { RootState } from "../../app/store";
 
 const MyProfile = () => {
-  const [data, setResponse] = useState<UserProfile | null>(null);
+  const dispatch = useDispatch()
+  const fetched  = useRef(false)
+
+  const user = useSelector((state:RootState)=>state.auth.user)
+  console.log(user.firstname)
 
   useEffect(() => {
     async function getProfileDetails() {
+      if (fetched.current)
+        return
       try {
         const response = await NodeInstance("/auth/me", {
           withCredentials: true,
         });
-        setResponse(response?.data);
+        dispatch(
+          setUser(response.data)
+        )
+        fetched.current=true
       } catch (error) {
         const axiosError = error as AxiosError;
         const errorData = axiosError?.response?.data as { message?: string };
         console.log(errorData?.message);
       }
     }
-    getProfileDetails();
+    if(user._id==="")
+      getProfileDetails();
   }, []);
 
-  if (!data)
+  if (user._id==="")
     return (
       <div className="flex h-60 w-full flex-col items-center justify-center gap-1 rounded-xl bg-orange-100">
         <div className="size-24 overflow-hidden rounded-full bg-pink-200">
@@ -48,12 +51,12 @@ const MyProfile = () => {
   return (
     <div className="flex h-60 w-full flex-col items-center justify-center gap-1 rounded-xl bg-orange-100">
       <div className="size-24 overflow-hidden rounded-full bg-pink-200">
-        <img src={data.ProfilePicture} alt="" />
+        <img src={user.ProfilePicture} alt="" />
       </div>
       <div className="mt-1 text-lg font-semibold">
-        {data.firstname} {data.lastname}
+        {user.firstname} {user.lastname}
       </div>
-      <div className="text-neutral-500">@{data.userId}</div>
+      <div className="text-neutral-500">@{user.userId}</div>
     </div>
   );
 };
