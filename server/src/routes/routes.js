@@ -1,9 +1,5 @@
 import express from "express";
 import authUser from "../middlewares/basicAuth.js";
-
-// import loginData from "../controllers/loginData.js";
-// import updateProfile from "../controllers/updateProfile.js";
-
 import { getMessages } from "../controllers/messages.js";
 import { sendRequest, acceptRequest } from "../controllers/invitations.js";
 import { login, signup, getMe, logout } from "../controllers/auth.js";
@@ -16,18 +12,7 @@ import {
 
 const router = express.Router();
 
-// router.post("/signup", signup);
-// router.post("/login", login);
-// router.get("/logout", logout);
-// router.get("/isLoggedin", authUser, loginData);
-// router.post("/getMessages", authUser, getMessages);
-// router.put("/updateprofile", authUser, updateProfile);
-
 router.get("/", (req, res) => res.status(200).json({ success: "ok" }));
-
-// router.post("/sendRequest", authUser, sendRequest);
-// router.post("/acceptRequest", authUser, acceptRequest);
-// router.get("/getfriends", authUser, getFriends);
 
 // auth.routes.js
 router.post("/auth/signup", signup);

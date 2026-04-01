@@ -16,6 +16,10 @@ const InvitationSchema = new mongoose.Schema({
         ref: "User",
         required: true,
     },
+    time: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 const Invitation = mongoose.model("Invitation", InvitationSchema);

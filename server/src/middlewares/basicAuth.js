@@ -14,6 +14,7 @@ export default function authUser(req, res, next) {
         next();
     } catch (error) {
         if (error.name === "TokenExpiredError") {
+            console.log("==================");
             return res
                 .status(401)
                 .json({ message: "Session expired, please log in again" });

@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.main {
+    display: flex;
+    justify-content: space-around;
+    align-self: center;
+}
