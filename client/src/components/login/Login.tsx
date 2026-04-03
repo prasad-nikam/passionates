@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { NodeInstance } from '../APIs/axiosInstance';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../app/features/authSlice';
+import { NodeInstance } from '../../APIs/axiosInstance';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../../app/features/authSlice';
 import { Eye, EyeOff } from 'lucide-react';
-
+import type { RootState } from '../../app/store';
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -14,6 +14,13 @@ const Login = () => {
     password: '',
   });
 
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  useEffect(() => {
+    if (user._id) {
+      navigate('/');
+    }
+  }, [user, navigate]);
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setFormData({
@@ -31,8 +38,6 @@ const Login = () => {
       if (response) {
         console.log(response);
         dispatch(setUser(response.data.user));
-
-        navigate('/');
       }
     } catch (error) {
       console.log(error);
@@ -41,9 +46,9 @@ const Login = () => {
 
   return (
     <div className="flex h-full w-full justify-center pt-20">
-      <div className="flex h-fit w-sm flex-col items-center justify-center gap-2 rounded-2xl bg-blue-200 p-4">
+      <div className="flex h-fit w-sm flex-col items-center justify-center gap-2 rounded-2xl bg-blue-100 p-4">
         <h2 className="pt-4 text-2xl">Login</h2>
-        <div className="h-0 w-full border-t border-neutral-400 pb-2"></div>
+        <div className="h-0 w-full border-t border-neutral-300 pb-2"></div>
         <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
           <input
             type="text"

@@ -69,7 +69,7 @@ export const signup = async (req, res) => {
 
         res.status(201)
             .cookie("token", token, options)
-            .json({ user, token: token });
+            .json({ success: true, user });
     }
 };
 
@@ -78,7 +78,7 @@ export const logout = (req, res) => {
     res.status(200).json({ message: "Logged out" });
 };
 
-export const getMe = async (req, res) => {
+export const getMe = async (req, res, next) => {
     try {
         const user = await User.findOne({ _id: req.user.id });
         user.password = undefined;
