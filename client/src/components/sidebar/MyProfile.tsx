@@ -6,6 +6,7 @@ import { setUser } from '../../app/features/authSlice';
 import type { RootState } from '../../app/store';
 import { EllipsisVertical } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import ProfileAvatar from '../../UI/ProfileAvatar';
 
 const MyProfile = () => {
   const dispatch = useDispatch();
@@ -60,10 +61,7 @@ const MyProfile = () => {
     return (
       <div className="flex w-full items-center gap-2 rounded-full bg-orange-100 p-2">
         <div className="size-12 overflow-hidden rounded-full bg-pink-200">
-          <img
-            src={`https://plus.unsplash.com/premium_vector-1721131162397-943dc390c744?w=352&dpr=1&h=367&auto=format&fit=crop&q=60&ixlib=rb-4.1.0`}
-            alt=""
-          />
+          <ProfileAvatar className="h-full w-full" camera={false} />
         </div>
         <div className="flex flex-1 items-center justify-between">
           <div>
@@ -89,13 +87,7 @@ const MyProfile = () => {
       className="flex w-full cursor-pointer items-center gap-2 rounded-full bg-orange-100 p-2"
     >
       <div className="size-12 overflow-hidden rounded-full bg-pink-200">
-        {user.ProfilePicture && <img src={user.ProfilePicture} alt="" />}
-        {!user.ProfilePicture && (
-          <img
-            src={`https://plus.unsplash.com/premium_vector-1721131162397-943dc390c744?w=352&dpr=1&h=367&auto=format&fit=crop&q=60&ixlib=rb-4.1.0`}
-            alt=""
-          />
-        )}
+        <ProfileAvatar />
       </div>
       <div className="flex flex-1 items-center justify-between">
         <div>

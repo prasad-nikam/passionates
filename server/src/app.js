@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import router from "./routes/routes.js";
 
 const app = express();
+app.use("/uploads", express.static("uploads"));
 app.use(
     cors({
         origin: process.env.CORS_ORIGIN,

@@ -19,9 +19,19 @@ function EditProfile({ setEdit }: EditProfileProps) {
     interests: '',
     bio: user.bio || '',
   });
+
+  const uploadProfile = async (fl: File) => {
+    const fd = new FormData();
+    fd.append('profilePic', fl);
+    await NodeInstance.post('/upload-profile', fd, { withCredentials: true });
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      if (file) {
+        uploadProfile(file);
+      }
       const response = await NodeInstance.patch('/users', formData, {
         withCredentials: true,
       });
@@ -82,6 +92,7 @@ function EditProfile({ setEdit }: EditProfileProps) {
         />
 
         <FileInput file={file} setFile={setFile} />
+
         <button
           className="max-w-sm cursor-pointer rounded-xl bg-black px-4 py-2 text-xl text-white hover:bg-neutral-700"
           type="submit"

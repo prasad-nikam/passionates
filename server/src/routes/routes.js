@@ -8,11 +8,20 @@ import {
     getUserById,
     updateUser,
     getFriends,
+    uploadProfilePic,
 } from "../controllers/users.js";
+import { upload } from "../utils/multer.js";
 
 const router = express.Router();
 
 router.get("/", (req, res) => res.status(200).json({ success: "ok" }));
+
+router.post(
+    "/upload-profile",
+    authUser,
+    upload.single("profilePic"),
+    uploadProfilePic
+);
 
 // auth.routes.js
 router.post("/auth/signup", signup);

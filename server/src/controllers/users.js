@@ -34,3 +34,16 @@ export const getFriends = async (req, res) => {
     const users = await User.findById(user.id).populate("friends");
     return res.json(users.friends);
 };
+
+export const uploadProfilePic = async (req, res) => {
+    if (!req.file) {
+        res.status(400).json({ message: "No file uploaded" });
+    }
+    const imageUrl = `/uploads/${req.file.filename}`;
+    await User.findByIdAndUpdate(req.user.id, { profilePic: imageUrl });
+
+    res.status(200).json({
+        message: "File uploaded",
+        filepath: imageUrl,
+    });
+};

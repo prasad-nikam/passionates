@@ -2,16 +2,20 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../../app/store';
 import { useState } from 'react';
 import EditProfile from './EditProfile';
+import { BASEURL } from '../../APIs/axiosInstance';
+import ProfileAvatar from '../../UI/ProfileAvatar';
 function MyProfile() {
   const [edit, setEdit] = useState(false);
   const user = useSelector((state: RootState) => state.auth.user);
-  console.log(user.bio);
+  console.log(`${BASEURL}${user.ProfilePicture}`);
 
   return (
     <div className="mx-auto flex w-2xl flex-col items-start">
       <div className="flex h-fit w-full">
         <div className="flex flex-col items-center">
-          <div className="size-36 rounded-full bg-blue-100"></div>
+          <div className="size-36 rounded-full bg-blue-100">
+            <ProfileAvatar camera={true} />
+          </div>
           {!edit && (
             <button
               onClick={() => setEdit(true)}

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
+// import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 const userSchema = mongoose.Schema(
     {
         firstname: {
@@ -42,6 +42,9 @@ const userSchema = mongoose.Schema(
             required: true,
         },
         refreshToken: {
+            type: String,
+        },
+        profilePic: {
             type: String,
         },
     },

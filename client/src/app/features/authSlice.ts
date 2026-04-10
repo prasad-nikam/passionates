@@ -16,6 +16,7 @@ const authSlice = createSlice({
       socketID: null,
       bio: null,
       posts: [],
+      profilePic: null,
     },
   },
   reducers: {
