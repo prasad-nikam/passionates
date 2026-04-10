@@ -84,7 +84,10 @@ const MyProfile = () => {
 
   console.log(user);
   return (
-    <div className="flex w-full cursor-pointer items-center gap-2 rounded-full bg-orange-100 p-2">
+    <div
+      onClick={() => navigate('/me')}
+      className="flex w-full cursor-pointer items-center gap-2 rounded-full bg-orange-100 p-2"
+    >
       <div className="size-12 overflow-hidden rounded-full bg-pink-200">
         {user.ProfilePicture && <img src={user.ProfilePicture} alt="" />}
         {!user.ProfilePicture && (

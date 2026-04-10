@@ -19,12 +19,11 @@ export const updateUser = async (req, res, next) => {
     try {
         const decoded = req.user;
         const interestsArray = interests.split(",");
-        console.log(interestsArray);
         const user = await User.updateOne(
             { _id: decoded.id },
             { bio: bio, interests: [...interestsArray] }
         );
-        res.status(200).send("Updated Successfuly");
+        res.status(200).json(user);
     } catch (err) {
         next(err);
     }

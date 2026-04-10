@@ -5,13 +5,17 @@ const authSlice = createSlice({
   initialState: {
     user: {
       _id: null,
+      name: null,
       firstname: null,
       lastname: null,
       email: null,
       interests: [],
+      freinds: [],
       ProfilePicture: null,
       userId: null,
       socketID: null,
+      bio: null,
+      posts: [],
     },
   },
   reducers: {
