@@ -1,6 +1,5 @@
 import { motion } from 'motion/react';
 import { Camera } from 'lucide-react';
-import { BASEURL } from '../APIs/axiosInstance';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../app/store';
 
@@ -17,12 +16,12 @@ export default function ProfileAvatar({
       {/* Avatar */}
       <motion.div
         whileHover={{ scale: 1.05 }}
-        className="relative size-full rounded-full bg-gradient-to-tr from-blue-400 via-indigo-400 to-purple-400 p-[3px] shadow-lg"
+        className="relative size-full rounded-full bg-linear-to-tr from-blue-400 via-indigo-400 to-purple-400 p-0.75 shadow-lg"
       >
         <div className="flex size-full items-center justify-center overflow-hidden rounded-full bg-white">
           {user?.profilePic ? (
             <img
-              src={`${BASEURL}${user.profilePic}`}
+              src={user.profilePic}
               alt="profile"
               className="h-full w-full object-cover"
             />

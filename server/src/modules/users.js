@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema(
         },
         posts: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "ref",
+            ref: "Post",
         },
         socketID: {
             type: String,
@@ -45,6 +45,9 @@ const userSchema = mongoose.Schema(
             type: String,
         },
         profilePic: {
+            type: String,
+        },
+        profilePicPublicId: {
             type: String,
         },
     },

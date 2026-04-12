@@ -1,4 +1,5 @@
 import User from "../modules/users.js";
+import cloudinary from "../utils/cloudinary.js";
 
 export const listUsers = async (req, res) => {
     let userList = await User.find({});
@@ -35,15 +36,43 @@ export const getFriends = async (req, res) => {
     return res.json(users.friends);
 };
 
+// ============cloudinary===============
 export const uploadProfilePic = async (req, res) => {
-    if (!req.file) {
-        res.status(400).json({ message: "No file uploaded" });
-    }
-    const imageUrl = `/uploads/${req.file.filename}`;
-    await User.findByIdAndUpdate(req.user.id, { profilePic: imageUrl });
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: "No file uploaded" });
+        }
+        const imgURL = req.file.path;
+        const publicID = req.file.filename;
 
-    res.status(200).json({
-        message: "File uploaded",
-        filepath: imageUrl,
-    });
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (user.profilePicPublicId) {
+            await cloudinary.uploader.destroy(user.profilePicPublicId);
+        }
+        user.profilePic = imgURL;
+        user.profilePicPublicId = publicID;
+        await user.save();
+        res.status(200).json({ imgURL });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
 };
+
+// ==============local storage upload logic ============================
+// export const uploadProfilePic = async (req, res) => {
+//     if (!req.file) {
+//         res.status(400).json({ message: "No file uploaded" });
+//     }
+//     const imageUrl = `/uploads/${req.file.filename}`;
+//     await User.findByIdAndUpdate(req.user.id, { profilePic: imageUrl });
+
+//     res.status(200).json({
+//         message: "File uploaded",
+//         filepath: imageUrl,
+//     });
+// };

@@ -10,7 +10,7 @@ import {
     getFriends,
     uploadProfilePic,
 } from "../controllers/users.js";
-import { upload } from "../utils/multer.js";
+import { upload } from "../middlewares/upload.js";
 
 const router = express.Router();
 

@@ -36,7 +36,9 @@ function EditProfile({ setEdit }: EditProfileProps) {
         withCredentials: true,
       });
       if (response.status == 200) {
-        dispatch(setUser(response.data));
+        dispatch(
+          setUser({ ...user, interests: formData.interests, bio: formData.bio })
+        );
         setEdit(false);
       }
     } catch (error) {

@@ -11,7 +11,6 @@ const authSlice = createSlice({
       email: null,
       interests: [],
       freinds: [],
-      ProfilePicture: null,
       userId: null,
       socketID: null,
       bio: null,
