@@ -63,7 +63,11 @@ const MyProfile = () => {
     return (
       <div className="flex w-full items-center gap-2 rounded-full bg-orange-100 p-2">
         <div className="size-12 overflow-hidden rounded-full bg-pink-200">
-          <ProfileAvatar className="h-full w-full" camera={false} />
+          <ProfileAvatar
+            profilePic={user.profilePic}
+            className="h-full w-full"
+            camera={false}
+          />
         </div>
         <div className="flex flex-1 items-center justify-between">
           <div>
@@ -82,14 +86,13 @@ const MyProfile = () => {
       </div>
     );
 
-  console.log(user);
   return (
     <motion.div
       onClick={() => navigate('/me')}
       className={`flex w-full cursor-pointer items-center gap-2 rounded-full p-2 ${pathname === '/me' ? 'bg-neutral-200 text-black' : 'bg-neutral-200 text-black'}`}
     >
       <div className="size-12 overflow-hidden rounded-full bg-pink-200">
-        <ProfileAvatar />
+        <ProfileAvatar profilePic={user.profilePic} />
       </div>
       <div className="flex flex-1 items-center justify-between">
         <div>

@@ -1,12 +1,72 @@
 import User from "../modules/users.js";
 import cloudinary from "../utils/cloudinary.js";
+import mongoose from "mongoose";
+
+export const searchUsers = async (req, res) => {
+    try {
+        const { q } = req.query;
+
+        if (!q || !q.trim()) {
+            return res.json([]);
+        }
+
+        // const users = await User.aggregate([
+        //     {
+        //         $search: {
+        //             index: "default",
+        //             text: {
+        //                 query: q,
+        //                 path: ["firstname", "lastname", "interests"],
+        //                 fuzzy: {
+        //                     maxEdits: 2,
+        //                 },
+        //             },
+        //         },
+        //     },
+        //     {
+        //         $match: {
+        //             _id: { $ne: new mongoose.Types.ObjectId(req.user.id) },
+        //         },
+        //     },
+        // ]);
+
+        const users = await User.aggregate([
+            {
+                $search: {
+                    index: "default",
+                    text: {
+                        query: q, // 🔥 hardcoded test
+                        path: {
+                            wildcard: "*",
+                        },
+                        fuzzy: {
+                            maxEdits: 2,
+                        },
+                    },
+                },
+            },
+            {
+                $match: {
+                    _id: { $ne: new mongoose.Types.ObjectId(req.user.id) },
+                },
+            },
+        ]);
+
+        res.status(200).json(users);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: err.message });
+    }
+};
 
 export const listUsers = async (req, res) => {
-    let userList = await User.find({});
-    userList.map((user) => {
-        user.password = undefined;
-    });
-    return res.json(userList);
+    const userId = req.user.id;
+
+    const userList = await User.find({
+        _id: { $ne: userId },
+    }).select("firstname lastname profilePic email");
+
+    res.json(userList);
 };
 
 export const getUserById = async (req, res) => {

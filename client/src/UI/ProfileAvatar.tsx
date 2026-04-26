@@ -1,16 +1,15 @@
 import { motion } from 'motion/react';
 import { Camera } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../app/store';
 
 export default function ProfileAvatar({
+  profilePic,
   className,
   camera,
 }: {
+  profilePic: string | null;
   className?: string;
   camera?: boolean;
 }) {
-  const user = useSelector((state: RootState) => state.auth.user);
   return (
     <div className={`relative h-full w-full ${className}`}>
       {/* Avatar */}
@@ -19,16 +18,14 @@ export default function ProfileAvatar({
         className="relative size-full rounded-full bg-linear-to-tr from-blue-400 via-indigo-400 to-purple-400 p-0.75 shadow-lg"
       >
         <div className="flex size-full items-center justify-center overflow-hidden rounded-full bg-white">
-          {user?.profilePic ? (
+          {profilePic ? (
             <img
-              src={user.profilePic}
+              src={profilePic}
               alt="profile"
               className="h-full w-full object-cover"
             />
           ) : (
-            <span className="text-3xl font-semibold text-gray-500">
-              {user?.firstname?.[0] || 'U'}
-            </span>
+            <span className="text-3xl font-semibold text-gray-500">{'U'}</span>
           )}
         </div>
       </motion.div>

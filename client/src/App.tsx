@@ -6,18 +6,20 @@ import SignUp from './components/signup/SignUp';
 import Home from './components/home/Home';
 import MyProfile from './components/myProfile/MyProfile';
 import Search from './components/search/Search';
+import UserProfile from './components/userProfile/UserProfile';
 
 function AppRouts() {
   const location = useLocation();
 
   return (
-    <Routes location={location} key={location.pathname}>
+    <Routes location={location}>
       <Route path="/" element={<Home />} />
       <Route path="/message" element={<div>msg</div>} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/me" element={<MyProfile />} />
       <Route path="/search" element={<Search />} />
+      <Route path="/profile/:id" element={<UserProfile />} />
     </Routes>
   );
 }

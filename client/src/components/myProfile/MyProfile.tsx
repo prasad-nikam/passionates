@@ -12,7 +12,7 @@ function MyProfile() {
       <div className="flex h-fit w-full">
         <div className="flex flex-col items-center">
           <div className="size-36 rounded-full bg-blue-100">
-            <ProfileAvatar camera={true} />
+            <ProfileAvatar profilePic={user.profilePic} camera={true} />
           </div>
           {!edit && (
             <button

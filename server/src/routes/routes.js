@@ -9,6 +9,7 @@ import {
     updateUser,
     getFriends,
     uploadProfilePic,
+    searchUsers,
 } from "../controllers/users.js";
 import { upload } from "../middlewares/upload.js";
 
@@ -31,6 +32,7 @@ router.get("/auth/me", authUser, getMe);
 
 // users.routes.js
 router.get("/users", authUser, listUsers);
+router.get("/users/search", authUser, searchUsers);
 router.get("/users/:id", authUser, getUserById);
 router.patch("/users", authUser, updateUser);
 router.get("/users/:id/friends", authUser, getFriends);
