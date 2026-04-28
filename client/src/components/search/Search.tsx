@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react';
 import UserProfleCard from '../../UI/UserProfleCard';
 import { NodeInstance } from '../../APIs/axiosInstance';
 import type { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
+import type { User } from '../../types/user';
 
 function Search() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [query, setQuery] = useState('');
+  const navigate = useNavigate();
   useEffect(() => {
     async function fetchUsers() {
       const response = await NodeInstance.get('/users', {
@@ -52,7 +55,13 @@ function Search() {
       </div>
       <div className="flex w-full flex-1 flex-col gap-2">
         {users.map((user) => (
-          <UserProfleCard user={user} key={user} />
+          <UserProfleCard
+            user={user}
+            key={user._id}
+            onClickHandler={() => {
+              navigate(`/profile/${user._id}`);
+            }}
+          />
         ))}
       </div>
     </div>

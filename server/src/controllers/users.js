@@ -10,26 +10,6 @@ export const searchUsers = async (req, res) => {
             return res.json([]);
         }
 
-        // const users = await User.aggregate([
-        //     {
-        //         $search: {
-        //             index: "default",
-        //             text: {
-        //                 query: q,
-        //                 path: ["firstname", "lastname", "interests"],
-        //                 fuzzy: {
-        //                     maxEdits: 2,
-        //                 },
-        //             },
-        //         },
-        //     },
-        //     {
-        //         $match: {
-        //             _id: { $ne: new mongoose.Types.ObjectId(req.user.id) },
-        //         },
-        //     },
-        // ]);
-
         const users = await User.aggregate([
             {
                 $search: {

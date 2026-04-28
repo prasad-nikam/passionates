@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { NodeInstance } from '../../APIs/axiosInstance';
 import type { AxiosError } from 'axios';
 import ProfileAvatar from '../../UI/ProfileAvatar';
@@ -19,7 +19,7 @@ function UserProfile() {
   const { id } = useParams<{ id: string }>();
   const fetched = useRef(false);
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [edit, setEdit] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getProfileDetails() {
@@ -69,7 +69,19 @@ function UserProfile() {
           </div>
         </div>
       </div>
-      <div className="mt-4">{edit ? null : 'Posts'}</div>
+      <div className="flex w-full justify-start gap-4">
+        <button
+          onClick={() => {
+            navigate(`/message/t/${user?._id}/`);
+          }}
+          className="mx-1 mt-4 w-1/2 cursor-pointer rounded-md bg-black px-4 py-2 text-white hover:bg-neutral-800"
+        >
+          message
+        </button>
+        <button className="mx-1 mt-4 w-1/2 cursor-pointer rounded-md bg-black px-4 py-2 text-white hover:bg-neutral-800">
+          follow
+        </button>
+      </div>
       <div className="my-2 w-full border-t-2 border-neutral-200"></div>
     </div>
   );
