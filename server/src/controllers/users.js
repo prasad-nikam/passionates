@@ -1,4 +1,5 @@
 import User from "../modules/users.js";
+import Message from "../modules/messages.js";
 import cloudinary from "../utils/cloudinary.js";
 import mongoose from "mongoose";
 
@@ -103,16 +104,82 @@ export const uploadProfilePic = async (req, res) => {
     }
 };
 
-// ==============local storage upload logic ============================
-// export const uploadProfilePic = async (req, res) => {
-//     if (!req.file) {
-//         res.status(400).json({ message: "No file uploaded" });
-//     }
-//     const imageUrl = `/uploads/${req.file.filename}`;
-//     await User.findByIdAndUpdate(req.user.id, { profilePic: imageUrl });
+export const listChatUsers = async (req, res) => {
+    const userId = req.user.id;
 
-//     res.status(200).json({
-//         message: "File uploaded",
-//         filepath: imageUrl,
-//     });
+    try {
+        // 1. Find all unique user IDs you've chatted with
+        const sentTo = await Message.distinct("receiver", { sender: userId });
+        const receivedFrom = await Message.distinct("sender", {
+            receiver: userId,
+        });
+
+        // 2. Merge + remove duplicates
+        const chatUserIds = [...new Set([...sentTo, ...receivedFrom])];
+
+        // 3. Fetch user details
+        const users = await User.find({
+            _id: { $in: chatUserIds },
+        }).select("firstname lastname profilePic email");
+
+        res.json(users);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to fetch chat users" });
+    }
+};
+
+// export const listChatUsers = async (req, res) => {
+//     const userId = req.user.id;
+
+//     try {
+//         const chats = await Message.aggregate([
+//             {
+//                 $match: {
+//                     $or: [{ sender: userId }, { receiver: userId }],
+//                 },
+//             },
+//             {
+//                 $project: {
+//                     user: {
+//                         $cond: [
+//                             { $eq: ["$sender", userId] },
+//                             "$receiver",
+//                             "$sender",
+//                         ],
+//                     },
+//                 },
+//             },
+//             {
+//                 $group: {
+//                     _id: "$user",
+//                 },
+//             },
+//             {
+//                 $lookup: {
+//                     from: "users",
+//                     localField: "_id",
+//                     foreignField: "_id",
+//                     as: "user",
+//                 },
+//             },
+//             {
+//                 $unwind: "$user",
+//             },
+//             {
+//                 $project: {
+//                     _id: "$user._id",
+//                     firstname: "$user.firstname",
+//                     lastname: "$user.lastname",
+//                     profilePic: "$user.profilePic",
+//                     email: "$user.email",
+//                 },
+//             },
+//         ]);
+
+//         res.json(chats);
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ error: "Failed to fetch chat users" });
+//     }
 // };

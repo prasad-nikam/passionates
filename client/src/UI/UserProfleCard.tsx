@@ -3,6 +3,7 @@ import ProfileAvatar from './ProfileAvatar';
 import { EllipsisVertical } from 'lucide-react';
 import type { User } from '../types/user';
 import { cn } from '../utils/cn';
+import React from 'react';
 
 function UserProfleCard({
   user,
@@ -15,9 +16,9 @@ function UserProfleCard({
 }) {
   return (
     <motion.div
-      onClick={onClickHandler}
+      onClick={onClickHandler ?? undefined}
       className={cn(
-        `flex w-full cursor-pointer items-center gap-2 rounded-xl bg-neutral-200 p-4 text-black`,
+        'flex w-full cursor-pointer items-center gap-2 rounded-xl bg-neutral-200 p-4 text-black',
         className
       )}
     >
@@ -32,11 +33,11 @@ function UserProfleCard({
           <div className="text-sm text-neutral-500">@{user.email}</div>
         </div>
         <div className="relative p-1 text-neutral-500 hover:text-neutral-800">
-          <EllipsisVertical className="size-5 w-fit" />
+          <EllipsisVertical className="size-5" />
         </div>
       </div>
     </motion.div>
   );
 }
 
-export default UserProfleCard;
+export default React.memo(UserProfleCard);

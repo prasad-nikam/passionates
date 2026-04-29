@@ -19,13 +19,16 @@ function AppRouts() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.on('connect', () => {
+    const handleConnect = () => {
       dispatch(setSocket(socket.id));
-    });
-    // return () => {
-    //   socket.disconnect();
-    // };
-  }, [socket, dispatch]);
+    };
+
+    socket.on('connect', handleConnect);
+
+    return () => {
+      socket.off('connect', handleConnect);
+    };
+  }, [dispatch]);
 
   return (
     <Routes location={location}>
@@ -48,7 +51,7 @@ function App() {
         <div className="h-16 lg:h-full lg:w-70 xl:w-80">
           <SideBar />
         </div>
-        <div className="fle flex min-h-0 flex-1 gap-2 bg-neutral-100 md:gap-4">
+        <div className="flex min-h-0 flex-1 gap-2 bg-neutral-100 md:gap-4">
           <AppRouts />
         </div>
         <Size />

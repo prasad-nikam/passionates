@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { RootState } from '../../app/store';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { NodeInstance } from '../../APIs/axiosInstance';
 import { socket } from '../../utils/socket';
 import { motion } from 'motion/react';
@@ -20,12 +20,18 @@ function Chat({ className }: { className?: string }) {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [text, setText] = useState('');
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    let active = true;
     const fetchMsgs = async () => {
+      if (!user?._id) return;
+      setIsLoading(true);
       const response = await NodeInstance.get(`/messages/${user?._id}`, {
         withCredentials: true,
       });
+      if (!active) return;
+
       let data = response.data as [];
       let oldmsgs = data.map(
         (m: {
@@ -45,16 +51,22 @@ function Chat({ className }: { className?: string }) {
         }
       );
       setMsgs(oldmsgs);
+      setIsLoading(false);
     };
     fetchMsgs();
-  }, [user]);
+
+    return () => {
+      active = false;
+    };
+  }, [user?._id]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [msgs]);
+    bottomRef.current?.scrollIntoView();
+  }, [msgs.length]);
 
   useEffect(() => {
     const handler = (data: any) => {
+      if (data.senderId !== user?._id) return;
       const newMsg: Msg = {
         id: crypto.randomUUID(),
         text: data.text,
@@ -70,8 +82,8 @@ function Chat({ className }: { className?: string }) {
     };
   }, []);
 
-  const sendMsg = () => {
-    if (!text.trim()) return;
+  const sendMsg = useCallback(() => {
+    if (!text.trim() || !user?._id) return;
     const newMsg: Msg = {
       id: crypto.randomUUID(),
       text,
@@ -82,7 +94,7 @@ function Chat({ className }: { className?: string }) {
     socket.emit('chat:sent', { text, receiverId });
     setMsgs((msg) => [...msg, newMsg]);
     setText('');
-  };
+  }, [text, user?._id]);
 
   if (!id)
     return (
@@ -91,6 +103,16 @@ function Chat({ className }: { className?: string }) {
       >
         {' '}
         Your Chats will appear here
+      </div>
+    );
+
+  if (isLoading)
+    return (
+      <div
+        className={cn('flex size-full items-center justify-center', className)}
+      >
+        {' '}
+        Loading...
       </div>
     );
 

@@ -8,11 +8,15 @@ import { setCurrentChat } from '../../app/features/chatListSlice';
 import type { RootState } from '../../app/store';
 
 function Messages() {
+  const totalUsers = useSelector(
+    (state: RootState) => state.chatList.totalusers
+  );
+
   const { id } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setCurrentChat(id));
-  }, [useSelector((state: RootState) => state.chatList.totalusers), id]);
+    if (id) dispatch(setCurrentChat(id));
+  }, [totalUsers, dispatch, id]);
   return (
     <div className="flex h-full min-h-0 w-full">
       <ChatList className={cn('w-full md:flex md:w-lg', id ? 'hidden' : ' ')} />
