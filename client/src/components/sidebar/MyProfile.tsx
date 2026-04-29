@@ -8,8 +8,9 @@ import { EllipsisVertical } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProfileAvatar from '../../UI/ProfileAvatar';
 import { motion } from 'motion/react';
+import { cn } from '../../utils/cn';
 
-const MyProfile = () => {
+const MyProfile = ({ className }: { className?: string }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const fetched = useRef(false);
@@ -61,7 +62,9 @@ const MyProfile = () => {
 
   if (!user._id)
     return (
-      <div className="flex w-full items-center gap-2 rounded-full bg-orange-100 p-2">
+      <div
+        className={`flex w-full items-center gap-2 rounded-full bg-orange-100 p-2 ${className}`}
+      >
         <div className="size-12 overflow-hidden rounded-full bg-pink-200">
           <ProfileAvatar
             profilePic={user.profilePic}
@@ -89,14 +92,18 @@ const MyProfile = () => {
   return (
     <motion.div
       onClick={() => navigate('/me')}
-      className={`flex w-full cursor-pointer items-center gap-2 rounded-full p-2 ${pathname === '/me' ? 'bg-neutral-200 text-black' : 'bg-neutral-200 text-black'}`}
+      className={cn(
+        `flex cursor-pointer items-center gap-2 rounded-full md:p-2 lg:w-full`,
+        `${pathname === '/me' ? 'bg-neutral-200 text-black' : 'bg-neutral-200 text-black'}`,
+        className
+      )}
     >
       <div className="size-12 overflow-hidden rounded-full bg-pink-200">
         <ProfileAvatar profilePic={user.profilePic} />
       </div>
-      <div className="flex flex-1 items-center justify-between">
+      <div className="hidden flex-1 items-center justify-between md:flex">
         <div>
-          <div className="font-semibold">
+          <div className="text-[1rem] font-medium lg:font-semibold">
             {user.firstname} {user.lastname}
           </div>
           <div className="text-sm text-neutral-500">@{user.email}</div>

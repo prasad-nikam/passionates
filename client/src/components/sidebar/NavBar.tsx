@@ -8,6 +8,7 @@ import {
   StickyNote,
   User,
 } from 'lucide-react';
+import MyProfile from './MyProfile';
 
 const NavBar = () => {
   const { pathname } = useLocation();
@@ -27,7 +28,9 @@ const NavBar = () => {
   ];
 
   return (
-    <div className="mt-4 flex w-full flex-col gap-2 text-xl font-semibold">
+    <div className="flex w-full justify-between gap-2 text-xl font-semibold lg:mt-4 lg:flex-col lg:justify-start">
+      <MyProfile className="hidden lg:flex" />
+
       {navItems.map(({ label, href, icon }) => {
         const isActive =
           href === '/' ? pathname === '/' : pathname.startsWith(href);
@@ -36,7 +39,7 @@ const NavBar = () => {
           <NavLink
             key={href}
             to={href}
-            className="relative flex h-12 w-full items-center justify-between rounded-2xl"
+            className="relative flex h-12 w-12 items-center justify-between rounded-2xl lg:w-full"
           >
             {isActive && (
               <motion.div
@@ -46,14 +49,15 @@ const NavBar = () => {
               />
             )}
             <div
-              className={`z-10 flex items-center justify-between gap-4 px-4 ${isActive ? 'text-white' : 'text-black'}`}
+              className={`z-10 mx-auto flex items-center justify-between gap-4 lg:mx-0 lg:px-4 ${isActive ? 'text-white' : 'text-black'}`}
             >
               {icon && icon}
-              <span className={`relative`}>{label}</span>
+              <span className={`relative hidden lg:flex`}>{label}</span>
             </div>
           </NavLink>
         );
       })}
+      <MyProfile className="lg:hidden" />
     </div>
   );
 };

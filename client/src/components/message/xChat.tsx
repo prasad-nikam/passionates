@@ -1,29 +1,28 @@
-import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import type { RootState } from '../../app/store';
-import { useState, useRef, useEffect } from 'react';
-import { NodeInstance } from '../../APIs/axiosInstance';
-import { socket } from '../../utils/socket';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, SendHorizonal } from 'lucide-react';
-import { cn } from '../../utils/cn';
+import { SendHorizonal } from 'lucide-react';
+import { socket } from '../../utils/socket';
+import type { User } from '../../types/user';
+import { NodeInstance } from '../../APIs/axiosInstance';
+import { useParams } from 'react-router-dom';
+
 type Msg = {
   id: string;
   text: string;
   sender: 'me' | 'other';
   createdAt?: any;
 };
-function Chat({ className }: { className?: string }) {
+
+export default function Chat({ user }: { user?: User }) {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const user = useSelector((state: RootState) => state.chatList.currentUser);
+
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [text, setText] = useState('');
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const fetchMsgs = async () => {
-      const response = await NodeInstance.get(`/messages/${user?._id}`, {
+      const response = await NodeInstance.get(`/messages/${id}`, {
         withCredentials: true,
       });
       let data = response.data as [];
@@ -84,27 +83,11 @@ function Chat({ className }: { className?: string }) {
     setText('');
   };
 
-  if (!id)
-    return (
-      <div
-        className={cn('flex size-full items-center justify-center', className)}
-      >
-        {' '}
-        Your Chats will appear here
-      </div>
-    );
-
   return (
-    <div className={cn('flex size-full min-h-0 flex-col', className)}>
-      <div className="flex h-16 w-full items-center justify-between border-b px-2">
-        <div className="flex gap-2">
-          <ArrowLeft onClick={() => navigate('/message')} />
-          <div>
-            {user?.firstname} {user?.lastname}
-          </div>
-        </div>
-      </div>
-      <div className="flex size-full min-h-0 flex-col gap-1 overflow-y-auto px-2 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="flex h-full min-h-0 w-full flex-col">
+      <div className="border-b py-3 text-lg font-semibold">Chat</div>
+
+      <div className="flex h-full min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2">
         {msgs.map((msg) => {
           const isMe = msg.sender === 'me';
 
@@ -129,7 +112,8 @@ function Chat({ className }: { className?: string }) {
         })}
         <div ref={bottomRef} />
       </div>
-      <div className="flex items-center gap-1 p-2">
+
+      <div className="flex items-center gap-1 p-3">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -148,5 +132,3 @@ function Chat({ className }: { className?: string }) {
     </div>
   );
 }
-
-export default Chat;
