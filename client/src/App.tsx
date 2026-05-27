@@ -47,14 +47,16 @@ function AppRouts() {
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex h-screen w-full flex-col-reverse gap-2 p-2 lg:flex-row lg:gap-4">
-        <div className="h-16 lg:h-full lg:w-70 xl:w-80">
-          <SideBar />
+      <div className="mx-auto max-w-380">
+        <div className="flex h-screen w-full flex-col-reverse gap-2 p-4 lg:flex-row lg:gap-4">
+          <div className="h-16 lg:h-full lg:w-70 xl:w-80">
+            <SideBar />
+          </div>
+          <div className="flex min-h-0 flex-1 gap-2 md:gap-4">
+            <AppRouts />
+          </div>
+          <Size />
         </div>
-        <div className="flex min-h-0 flex-1 gap-2 bg-neutral-100 md:gap-4">
-          <AppRouts />
-        </div>
-        <Size />
       </div>
     </BrowserRouter>
   );

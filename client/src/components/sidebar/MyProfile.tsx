@@ -31,6 +31,7 @@ const MyProfile = ({ className }: { className?: string }) => {
         const axiosError = error as AxiosError;
         const errorData = axiosError?.response?.data as { message?: string };
         console.log(errorData?.message);
+        navigate('/login');
       }
     }
     if (!user._id) getProfileDetails();

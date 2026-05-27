@@ -7,6 +7,7 @@ import { socket } from '../../utils/socket';
 import { motion } from 'motion/react';
 import { ArrowLeft, SendHorizonal } from 'lucide-react';
 import { cn } from '../../utils/cn';
+import ProfileAvatar from '../../UI/ProfileAvatar';
 type Msg = {
   id: string;
   text: string;
@@ -14,7 +15,7 @@ type Msg = {
   createdAt?: any;
 };
 function Chat({ className }: { className?: string }) {
-  const { id } = useParams();
+  // const { id } = useParams();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.chatList.currentUser);
   const [msgs, setMsgs] = useState<Msg[]>([]);
@@ -96,7 +97,7 @@ function Chat({ className }: { className?: string }) {
     setText('');
   }, [text, user?._id]);
 
-  if (!id)
+  if (!user)
     return (
       <div
         className={cn('flex size-full items-center justify-center', className)}
@@ -117,16 +118,23 @@ function Chat({ className }: { className?: string }) {
     );
 
   return (
-    <div className={cn('flex size-full min-h-0 flex-col', className)}>
-      <div className="flex h-16 w-full items-center justify-between border-b px-2">
+    <div
+      className={cn(
+        'flex size-full min-h-0 flex-col',
+        'md:border-l md:border-neutral-200',
+        className
+      )}
+    >
+      <div className="flex h-16 w-full items-center justify-between border-b border-neutral-200 px-2">
         <div className="flex gap-2">
           <ArrowLeft onClick={() => navigate('/message')} />
           <div>
+            {/* <ProfileAvatar profilePic={user?.profilePic} className='size-5'/> */}
             {user?.firstname} {user?.lastname}
           </div>
         </div>
       </div>
-      <div className="flex size-full min-h-0 flex-col gap-1 overflow-y-auto px-2 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex size-full min-h-0 flex-col gap-1 overflow-y-auto px-4 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {msgs.map((msg) => {
           const isMe = msg.sender === 'me';
 
@@ -140,7 +148,7 @@ function Chat({ className }: { className?: string }) {
               <div
                 className={`max-w-[70%] rounded-2xl px-4 py-2 text-sm shadow ${
                   isMe
-                    ? 'rounded-br-md bg-black text-white'
+                    ? 'rounded-br-md bg-neutral-900 text-white'
                     : 'rounded-bl-md bg-neutral-200 text-black'
                 }`}
               >
@@ -151,7 +159,7 @@ function Chat({ className }: { className?: string }) {
         })}
         <div ref={bottomRef} />
       </div>
-      <div className="flex items-center gap-1 p-2">
+      <div className="flex items-center gap-1 p-2 px-4">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}

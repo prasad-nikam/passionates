@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { NodeInstance } from '../../APIs/axiosInstance';
 import type { AxiosError } from 'axios';
 import ProfileAvatar from '../../UI/ProfileAvatar';
+import { useDispatch } from 'react-redux';
+import { pushToChatList } from '../../app/features/chatListSlice';
 
 interface UserProfile {
   _id: string | null;
@@ -20,6 +22,7 @@ function UserProfile() {
   const fetched = useRef(false);
   const [user, setUser] = useState<UserProfile | null>(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getProfileDetails() {
@@ -72,6 +75,7 @@ function UserProfile() {
       <div className="flex w-full justify-start gap-4">
         <button
           onClick={() => {
+            dispatch(pushToChatList(user));
             navigate(`/message/t/${user?._id}/`);
           }}
           className="mx-1 mt-4 w-1/2 cursor-pointer rounded-md bg-black px-4 py-2 text-white hover:bg-neutral-800"

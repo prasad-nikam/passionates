@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { NodeInstance } from '../../APIs/axiosInstance';
 import UserProfleCard from '../../UI/UserProfleCard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,16 +10,15 @@ import type { RootState } from '../../app/store';
 function ChatList({ className }: { className?: string }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
-  const users = useSelector((state: RootState) => state.chatList.totalusers);
+  const users = useSelector((state: RootState) => state.chatList);
 
   useEffect(() => {
     let isMounted = true;
 
     const fetchUsers = async () => {
       try {
-        if (users.length > 0) {
+        if (users.totalusers.length > 0) {
           return;
         }
 
@@ -41,7 +40,7 @@ function ChatList({ className }: { className?: string }) {
     return () => {
       isMounted = false;
     };
-  }, [users.length, dispatch]);
+  }, [users.totalusers.length, dispatch]);
 
   const userClickHandler = useCallback(
     (id: string) => {
@@ -60,13 +59,18 @@ function ChatList({ className }: { className?: string }) {
 
   return (
     <div
-      className={cn('flex h-full w-xl flex-col gap-1 border-r px-2', className)}
+      className={cn(
+        'flex h-full w-xl flex-col gap-1 px-2',
+        'lg:border-l lg:border-neutral-200',
+        'overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+        className
+      )}
     >
-      {users.map((u) => (
+      {users.totalusers.map((u) => (
         <UserProfleCard
           className={cn(
-            'border-b',
-            id === u._id ? 'bg-black text-white' : null
+            'bg-neutral-50',
+            users.currentUser?._id === u._id ? 'bg-neutral-200' : null
           )}
           key={u._id}
           user={u}

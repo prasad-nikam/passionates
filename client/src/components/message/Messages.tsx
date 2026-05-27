@@ -15,6 +15,7 @@ function Messages() {
   const { id } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log(id);
     if (id) dispatch(setCurrentChat(id));
   }, [totalUsers, dispatch, id]);
   return (

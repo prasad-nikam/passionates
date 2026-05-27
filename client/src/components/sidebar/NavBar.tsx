@@ -28,7 +28,7 @@ const NavBar = () => {
   ];
 
   return (
-    <div className="flex w-full justify-between gap-2 text-xl font-semibold lg:mt-4 lg:flex-col lg:justify-start">
+    <div className="flex w-full justify-between gap-2 text-xl font-semibold lg:flex-col lg:justify-start">
       <MyProfile className="hidden lg:flex" />
 
       {navItems.map(({ label, href, icon }) => {

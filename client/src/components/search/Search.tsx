@@ -23,7 +23,7 @@ function Search() {
     const t = setTimeout(async () => {
       try {
         if (!query.trim()) {
-          setUsers([]);
+          // setUsers([]);
           return;
         }
         const response = await NodeInstance.get(`/users/search?q=${query}`, {
