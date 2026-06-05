@@ -13,6 +13,7 @@ import {
     listChatUsers,
 } from "../controllers/users.js";
 import { upload } from "../middlewares/upload.js";
+import { follow, getFollowers, unfollow } from "../controllers/follow.js";
 
 const router = express.Router();
 
@@ -46,5 +47,10 @@ router.post("/invitations/accept", authUser, acceptRequest);
 // messages.routes.js
 router.get("/messages/:userId", authUser, getMessages);
 // router.post("/messages/:userId", authUser, sendMessage);
+
+// follow routes
+router.get("/followers/:userId", getFollowers);
+router.post("/follow/:userId", authUser, follow);
+router.post("/unfollow/:userId", authUser, unfollow);
 
 export default router;

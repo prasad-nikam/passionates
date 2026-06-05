@@ -29,7 +29,6 @@ function AppRouts() {
       socket.off('connect', handleConnect);
     };
   }, [dispatch]);
-
   return (
     <Routes location={location}>
       <Route path="/" element={<Home />} />
@@ -40,6 +39,7 @@ function AppRouts() {
       <Route path="/me" element={<MyProfile />} />
       <Route path="/search" element={<Search />} />
       <Route path="/profile/:id" element={<UserProfile />} />
+      <Route path="/notifications" element={<Home />} />
     </Routes>
   );
 }

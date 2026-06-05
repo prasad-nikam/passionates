@@ -2,6 +2,7 @@ import User from "../modules/users.js";
 import Message from "../modules/messages.js";
 import cloudinary from "../utils/cloudinary.js";
 import mongoose from "mongoose";
+import Follow from "../modules/follow.js";
 
 export const searchUsers = async (req, res) => {
     try {
@@ -46,14 +47,41 @@ export const listUsers = async (req, res) => {
     const userList = await User.find({
         _id: { $ne: userId },
     }).select("firstname lastname profilePic email");
-
     res.json(userList);
 };
 
 export const getUserById = async (req, res) => {
-    let user = await User.findById(req.params.id);
-    user.password = undefined;
-    return res.json(user);
+    try {
+        const targetUserId = req.params.id;
+        const me = req.user.id;
+
+        const user = await User.findById(targetUserId).select(
+            "-password -refreshToken"
+        );
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+            });
+        }
+
+        const follow = await Follow.exists({
+            follower: me,
+            following: targetUserId,
+        });
+
+        const userObj = user.toObject();
+
+        userObj.isFollowed = !!follow;
+
+        return res.status(200).json(userObj);
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: "Something went wrong",
+        });
+    }
 };
 
 export const updateUser = async (req, res, next) => {

@@ -11,10 +11,12 @@ interface UserProfile {
   firstname: string | null;
   lastname: string | null;
   email: string | null;
-  freinds: unknown[];
-  posts: unknown[];
   bio: string | null;
   profilePic: string | null;
+  followersCount: number | null;
+  followingCount: number | null;
+  postsCount: number | null;
+  isFollowed: boolean | null;
 }
 
 function UserProfile() {
@@ -33,6 +35,7 @@ function UserProfile() {
         });
         setUser(response.data);
         fetched.current = true;
+        console.log(response.data);
       } catch (error) {
         const axiosError = error as AxiosError;
         const errorData = axiosError?.response?.data as { message?: string };
@@ -42,6 +45,51 @@ function UserProfile() {
     if (!user?._id) getProfileDetails();
   }, [id, user?._id]);
 
+  const handleFollowClick = async () => {
+    try {
+      if (user?.isFollowed) {
+        await NodeInstance.post(
+          `/unfollow/${id}`,
+          {},
+          {
+            withCredentials: true,
+          }
+        ).catch((err) => {
+          console.log(err);
+        });
+
+        setUser((prev) =>
+          prev
+            ? {
+                ...prev,
+                isFollowed: false,
+                followersCount: (prev.followersCount ?? 0) - 1,
+              }
+            : prev
+        );
+      } else {
+        await NodeInstance.post(
+          `/follow/${id}`,
+          {},
+          {
+            withCredentials: true,
+          }
+        );
+
+        setUser((prev) =>
+          prev
+            ? {
+                ...prev,
+                isFollowed: true,
+                followersCount: (prev.followersCount ?? 0) + 1,
+              }
+            : prev
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="mx-auto flex w-2xl flex-col items-start">
       <div className="flex h-fit w-full">
@@ -61,11 +109,9 @@ function UserProfile() {
           <div className="text-sm text-neutral-500">{user?.email}</div>
           <div className="flex gap-12">
             <div className="text-sm font-bold">
-              {user?.freinds ? user?.freinds.length : 0} Freinds
+              {user?.followersCount} Followers
             </div>
-            <div className="text-sm font-bold">
-              {user?.posts ? user?.posts.length : 0} Posts
-            </div>
+            <div className="text-sm font-bold">{user?.postsCount} Posts</div>
           </div>
           <div className="whitespace-pre-line text-neutral-900">
             {user?.bio}
@@ -82,8 +128,11 @@ function UserProfile() {
         >
           message
         </button>
-        <button className="mx-1 mt-4 w-1/2 cursor-pointer rounded-md bg-black px-4 py-2 text-white hover:bg-neutral-800">
-          follow
+        <button
+          onClick={handleFollowClick}
+          className="mx-1 mt-4 w-1/2 cursor-pointer rounded-md bg-black px-4 py-2 text-white hover:bg-neutral-800"
+        >
+          {user?.isFollowed ? 'unfollow' : 'follow'}
         </button>
       </div>
       <div className="my-2 w-full border-t-2 border-neutral-200"></div>

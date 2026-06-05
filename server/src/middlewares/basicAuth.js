@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 export default function authUser(req, res, next) {
     try {
         if (!req?.cookies?.token) {
+            console.log(11111111111);
             return res.status(403).json({ message: "You are not logged in" });
         }
 
@@ -11,10 +12,12 @@ export default function authUser(req, res, next) {
             process.env.ACCESS_TOKEN_SECRET
         );
         req.user = decoded;
+        console.log(2222222222);
+
         next();
     } catch (error) {
+        console.log(33333333333);
         if (error.name === "TokenExpiredError") {
-            console.log("==================");
             return res
                 .status(401)
                 .json({ message: "Session expired, please log in again" });

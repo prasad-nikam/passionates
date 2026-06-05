@@ -1,13 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
-import {
-  House,
-  MessageCircle,
-  MessageSquare,
-  Search,
-  StickyNote,
-  User,
-} from 'lucide-react';
+import { BellIcon, MessageSquare, Search, StickyNote } from 'lucide-react';
 import MyProfile from './MyProfile';
 
 const NavBar = () => {
@@ -23,7 +16,7 @@ const NavBar = () => {
   const navItems: NavItem[] = [
     { label: 'Feed', href: '/', icon: <StickyNote /> },
     { label: 'Messages', href: '/message', icon: <MessageSquare /> },
-    { label: 'Friends', href: '/friends', icon: <User /> },
+    { label: 'Notifications', href: '/notifications', icon: <BellIcon /> },
     { label: 'Search', href: '/search', icon: <Search /> },
   ];
 

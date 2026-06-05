@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema(
         },
         email: {
             type: String,
-            require: true,
+            required: true,
             unique: true,
             lowercase: true,
         },
@@ -24,22 +24,13 @@ const userSchema = mongoose.Schema(
         bio: {
             type: String,
         },
-        posts: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Post",
-        },
         socketID: {
             type: String,
         },
-        friends: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-            },
-        ],
         password: {
             type: String,
             required: true,
+            select: false,
         },
         refreshToken: {
             type: String,
@@ -49,6 +40,19 @@ const userSchema = mongoose.Schema(
         },
         profilePicPublicId: {
             type: String,
+        },
+        followersCount: {
+            type: Number,
+            default: 0,
+        },
+
+        followingCount: {
+            type: Number,
+            default: 0,
+        },
+        postsCount: {
+            type: Number,
+            default: 0,
         },
     },
     {
