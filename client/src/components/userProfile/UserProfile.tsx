@@ -17,6 +17,7 @@ interface UserProfile {
   followingCount: number | null;
   postsCount: number | null;
   isFollowed: boolean | null;
+  privacy: 'private' | 'public';
 }
 
 function UserProfile() {
@@ -132,7 +133,13 @@ function UserProfile() {
           onClick={handleFollowClick}
           className="mx-1 mt-4 w-1/2 cursor-pointer rounded-md bg-black px-4 py-2 text-white hover:bg-neutral-800"
         >
-          {user?.isFollowed ? 'unfollow' : 'follow'}
+          {user?.isFollowed
+            ? 'unfollow'
+            : user?.privacy === 'private'
+              ? 'Send Request'
+              : 'follow'}
+
+          {/* {user?.isFollowed ? 'unfollow' : 'follow'} */}
         </button>
       </div>
       <div className="my-2 w-full border-t-2 border-neutral-200"></div>

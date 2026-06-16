@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Follow from "../modules/follow.js";
 import User from "../modules/users.js";
+import { sendRequest } from "./followRequests.js";
 export const getFollowers = async (req, res) => {
     const user = req.params.userId;
     const followers = await Follow.find({ following: user });
@@ -8,85 +9,87 @@ export const getFollowers = async (req, res) => {
 };
 
 export const follow = async (req, res) => {
-    const session = await mongoose.startSession();
-    console.log("not a auth error");
+    const toFollow = req.params.userId;
+    const me = req.user.id;
+    const user = User.findOne({ id: toFollow });
+    if (user.privacy === "private") {
+        return await sendRequest(req, res);
+    } else {
+        const session = await mongoose.startSession();
+        try {
+            session.startTransaction();
 
-    try {
-        session.startTransaction();
+            if (me === toFollow) {
+                await session.abortTransaction();
 
-        const toFollow = req.params.userId;
-        const me = req.user.id;
+                return res.status(400).json({
+                    message: "You cannot follow yourself",
+                });
+            }
 
-        if (me === toFollow) {
-            await session.abortTransaction();
-
-            return res.status(400).json({
-                message: "You cannot follow yourself",
-            });
-        }
-
-        const existing = await Follow.findOne(
-            {
-                follower: me,
-                following: toFollow,
-            },
-            null,
-            { session }
-        );
-
-        if (existing) {
-            await session.abortTransaction();
-
-            return res.status(400).json({
-                message: "Already following",
-            });
-        }
-
-        await Follow.create(
-            [
+            const existing = await Follow.findOne(
                 {
                     follower: me,
                     following: toFollow,
                 },
-            ],
-            { session }
-        );
+                null,
+                { session }
+            );
 
-        await User.findByIdAndUpdate(
-            me,
-            {
-                $inc: {
-                    followingCount: 1,
+            if (existing) {
+                await session.abortTransaction();
+
+                return res.status(400).json({
+                    message: "Already following",
+                });
+            }
+
+            await Follow.create(
+                [
+                    {
+                        follower: me,
+                        following: toFollow,
+                    },
+                ],
+                { session }
+            );
+
+            await User.findByIdAndUpdate(
+                me,
+                {
+                    $inc: {
+                        followingCount: 1,
+                    },
                 },
-            },
-            { session }
-        );
+                { session }
+            );
 
-        await User.findByIdAndUpdate(
-            toFollow,
-            {
-                $inc: {
-                    followersCount: 1,
+            await User.findByIdAndUpdate(
+                toFollow,
+                {
+                    $inc: {
+                        followersCount: 1,
+                    },
                 },
-            },
-            { session }
-        );
+                { session }
+            );
 
-        await session.commitTransaction();
+            await session.commitTransaction();
 
-        return res.status(201).json({
-            message: "Successfully followed",
-        });
-    } catch (error) {
-        await session.abortTransaction();
+            return res.status(201).json({
+                message: "Successfully followed",
+            });
+        } catch (error) {
+            await session.abortTransaction();
 
-        console.error(error);
+            console.error(error);
 
-        return res.status(500).json({
-            message: "Something went wrong",
-        });
-    } finally {
-        await session.endSession();
+            return res.status(500).json({
+                message: "Something went wrong",
+            });
+        } finally {
+            await session.endSession();
+        }
     }
 };
 

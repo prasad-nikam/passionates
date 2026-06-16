@@ -6,12 +6,14 @@ interface AuthUser {
   lastname: string | null;
   email: string | null;
   interests: string[];
-  freinds: string[];
   userId: string | null;
   socketID: string | null;
   bio: string | null;
-  posts: unknown[];
   profilePic: string | null;
+  followersCount: number | null;
+  followingCount: number | null;
+  postsCount: number | null;
+  privacy: 'private' | 'public' | null;
 }
 
 interface AuthState {
@@ -26,12 +28,14 @@ const initialState: AuthState = {
     lastname: null,
     email: null,
     interests: [],
-    freinds: [],
     userId: null,
     socketID: null,
     bio: null,
-    posts: [],
     profilePic: null,
+    followersCount: null,
+    followingCount: null,
+    postsCount: null,
+    privacy: null,
   },
 };
 

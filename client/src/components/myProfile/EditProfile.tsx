@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, type ChangeEvent } from 'react';
 import type { AxiosError } from 'axios';
 import { NodeInstance } from '../../APIs/axiosInstance';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../app/features/authSlice';
 import FileInput from '../../UI/FileInput';
 import type { RootState } from '../../app/store';
+import PrivacyToggle from '../../UI/PrivacyToggle';
 
 interface EditProfileProps {
   setEdit: (value: boolean) => void;
@@ -13,11 +14,13 @@ function EditProfile({ setEdit }: EditProfileProps) {
   const dispatch = useDispatch();
   const [file, setFile] = useState<File | null>(null);
   const user = useSelector((state: RootState) => state.auth.user);
+  const [isPrivate, setIsPrivate] = useState(false);
 
   const [formData, setFormData] = useState({
     name: user.name || '',
     interests: '',
     bio: user.bio || '',
+    privacy: isPrivate ? 'private' : 'public',
   });
 
   const uploadProfile = async (fl: File) => {
@@ -32,9 +35,17 @@ function EditProfile({ setEdit }: EditProfileProps) {
       if (file) {
         uploadProfile(file);
       }
-      const response = await NodeInstance.patch('/users', formData, {
-        withCredentials: true,
-      });
+      const response = await NodeInstance.patch(
+        '/users',
+        {
+          interests: formData.interests,
+          bio: formData.bio,
+          privacy: isPrivate ? 'private' : 'public',
+        },
+        {
+          withCredentials: true,
+        }
+      );
       if (response.status == 200) {
         dispatch(
           setUser({ ...user, interests: formData.interests, bio: formData.bio })
@@ -47,11 +58,21 @@ function EditProfile({ setEdit }: EditProfileProps) {
     }
     setEdit(false);
   };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleCheckBox = (e: boolean) => {
+    setFormData({
+      ...formData,
+      privacy: e ? 'private' : 'public',
+    });
+
+    console.log(user.privacy);
   };
   return (
     <div className="flex size-full justify-center pt-4">
@@ -94,6 +115,8 @@ function EditProfile({ setEdit }: EditProfileProps) {
         />
 
         <FileInput file={file} setFile={setFile} />
+
+        <PrivacyToggle privacy={user.privacy} handleCheckBox={handleCheckBox} />
 
         <button
           className="max-w-sm cursor-pointer rounded-xl bg-black px-4 py-2 text-xl text-white hover:bg-neutral-700"

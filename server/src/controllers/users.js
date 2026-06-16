@@ -85,13 +85,13 @@ export const getUserById = async (req, res) => {
 };
 
 export const updateUser = async (req, res, next) => {
-    const { bio, interests } = req.body;
+    const { bio, interests, privacy } = req.body;
     try {
         const decoded = req.user;
         const interestsArray = interests.split(",");
         const user = await User.updateOne(
             { _id: decoded.id },
-            { bio: bio, interests: [...interestsArray] }
+            { bio: bio, interests: [...interestsArray], privacy: privacy }
         );
         res.status(200).json(user);
     } catch (err) {

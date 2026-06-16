@@ -54,6 +54,11 @@ const userSchema = mongoose.Schema(
             type: Number,
             default: 0,
         },
+        privacy: {
+            type: String,
+            enum: ["public", "private"],
+            default: "public",
+        },
     },
     {
         timestamps: true,
