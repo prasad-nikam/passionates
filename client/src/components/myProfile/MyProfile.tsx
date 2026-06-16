@@ -30,11 +30,9 @@ function MyProfile() {
           <div className="text-sm text-neutral-500">{user.email}</div>
           <div className="flex gap-12">
             <div className="text-sm font-bold">
-              {user.freinds ? user.freinds.length : 0} Freinds
+              {user.followersCount} Freinds
             </div>
-            <div className="text-sm font-bold">
-              {user.posts ? user.posts.length : 0} Posts
-            </div>
+            <div className="text-sm font-bold">{user.postsCount} Posts</div>
           </div>
           <div className="whitespace-pre-line text-neutral-900">{user.bio}</div>
         </div>

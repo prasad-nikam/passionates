@@ -1,4 +1,4 @@
-import React, { useState, type ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import type { AxiosError } from 'axios';
 import { NodeInstance } from '../../APIs/axiosInstance';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,13 +14,12 @@ function EditProfile({ setEdit }: EditProfileProps) {
   const dispatch = useDispatch();
   const [file, setFile] = useState<File | null>(null);
   const user = useSelector((state: RootState) => state.auth.user);
-  const [isPrivate, setIsPrivate] = useState(false);
 
   const [formData, setFormData] = useState({
     name: user.name || '',
     interests: '',
     bio: user.bio || '',
-    privacy: isPrivate ? 'private' : 'public',
+    privacy: user.privacy,
   });
 
   const uploadProfile = async (fl: File) => {
@@ -35,20 +34,17 @@ function EditProfile({ setEdit }: EditProfileProps) {
       if (file) {
         uploadProfile(file);
       }
-      const response = await NodeInstance.patch(
-        '/users',
-        {
-          interests: formData.interests,
-          bio: formData.bio,
-          privacy: isPrivate ? 'private' : 'public',
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await NodeInstance.patch('/users', formData, {
+        withCredentials: true,
+      });
       if (response.status == 200) {
         dispatch(
-          setUser({ ...user, interests: formData.interests, bio: formData.bio })
+          setUser({
+            ...user,
+            interests: formData.interests,
+            bio: formData.bio,
+            privacy: formData.privacy,
+          })
         );
         setEdit(false);
       }
